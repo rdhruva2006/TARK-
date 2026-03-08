@@ -1,0 +1,220 @@
+@import "tailwindcss";
+@reference "tailwindcss";
+
+/* Ensure your ANN Background doesn't displace content */
+#canvas-container {
+    @apply fixed inset-0 -z-10;
+}
+
+/* Tailwind v4 @theme block — defines custom color/font tokens */
+@theme {
+    --color-neon-cyan: #00f2fe;
+    --color-neon-purple: #7000ff;
+    --color-space-navy: #050510;
+    --color-space-void: #11112a;
+    --font-sans: "Inter", sans-serif;
+    --font-outfit: "Outfit", sans-serif;
+}
+
+/* Base global styles */
+@layer base {
+    body {
+        background-color: #050510;
+        color: #f3f4f6;
+        font-family: var(--font-outfit);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        background-image:
+            radial-gradient(circle at 50% -20%, #1a1a3a 0%, #050510 60%),
+            radial-gradient(circle at 0% 100%, #110033 0%, transparent 40%),
+            radial-gradient(circle at 100% 100%, #001122 0%, transparent 40%);
+        background-attachment: fixed;
+    }
+}
+
+/* Reusable component classes — written as plain CSS (no @apply with arbitrary values) */
+@layer components {
+    .glass-panel {
+        background-color: rgba(0, 0, 0, 0.40);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .glass-card {
+        background-color: rgba(17, 17, 42, 0.60);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 1.5rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .neon-glow-cyan {
+        filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+    }
+
+    .neon-glow-purple {
+        filter: drop-shadow(0 0 12px rgba(112, 0, 255, 0.4));
+    }
+
+    .neon-text-cyan {
+        color: transparent;
+        background: linear-gradient(to right, #22d3ee, #60a5fa);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    .futuristic-border {
+        position: relative;
+    }
+
+    .futuristic-border::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        background: linear-gradient(45deg, var(--color-neon-cyan), transparent, var(--color-neon-purple), transparent);
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+    }
+
+    .futuristic-border:hover::before {
+        opacity: 0.8;
+    }
+}
+
+/* Custom utility animations */
+@layer utilities {
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-pulse-glow {
+        animation: pulse-glow 3s ease-in-out infinite;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        filter: brightness(1);
+    }
+
+    50% {
+        opacity: 1;
+        filter: brightness(1.3);
+    }
+}
+
+/* CRT flicker for crash simulation */
+.crt-flicker {
+    animation: flicker 0.15s infinite;
+}
+
+.scanline {
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.2) 50%,
+            rgba(0, 0, 0, 0.2));
+    background-size: 100% 4px;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 0.95;
+    }
+
+    5% {
+        opacity: 0.85;
+    }
+
+    10% {
+        opacity: 0.95;
+    }
+
+    15%,
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Futuristic scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(5, 5, 16, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #7000ff, #00f2fe);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00f2fe;
+}
+
+/* Range slider thumb styling */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #00f2fe;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+    transition: box-shadow 0.2s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.9);
+}
+
+/* Emergency Shake Animation */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-10px) rotate(-1deg);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(10px) rotate(1deg);
+    }
+}
+
+.animate-shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
